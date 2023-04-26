@@ -27,20 +27,26 @@ class Lidi:
         is_callable = callable(instance_or_callable)
         if singleton and is_callable:
             self.__bindings[cls] = instance_or_callable()
-        elif singleton:
+        elif is_callable:
             self.__bindings[cls] = instance_or_callable
         else:
             self.__bindings[cls] = lambda: instance_or_callable
 
     def resolve(self, cls: Type[T]) -> T:
+        binding = self.__get_binding(cls=cls)
+        if callable(binding):
+            return cast(T, binding())
+        return binding
+
+    def resolve_defer(self, cls: Type[T]) -> Callable[[], T]:
+        return lambda: self.resolve(cls=cls)
+
+    def __get_binding(self, cls: Type[T]) -> T:
         try:
-            binding = self.__bindings[cls]
+            return cast(T, self.__bindings[cls])
         except KeyError:
             msg = f"Binding missing for type: {cls.__name__}"
             raise BindingMissing(msg)
-        if callable(binding):
-            return cast(T, binding())
-        return cast(T, binding)
 
 
 __all__ = ("Lidi",)
