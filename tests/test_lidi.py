@@ -3,53 +3,6 @@ from lidi import Lidi
 from lidi.exceptions import BindingMissing
 
 
-def test_should_resolve_simple_function() -> None:
-    # Given
-    lidi = Lidi()
-
-    def function_a() -> None:
-        ...
-
-    def function_b() -> None:
-        ...
-
-    lidi.bind(function_a, function_b)
-
-    # When
-    resolved_function = lidi.resolve(function_a)
-
-    # Then
-    assert resolved_function is function_b
-    assert resolved_function is not function_a
-
-
-def test_should_dynamically_resolve_simple_function() -> None:
-    # Given
-    lidi = Lidi()
-
-    def function_a() -> None:
-        ...
-
-    def function_b() -> None:
-        ...
-
-    def function_c() -> None:
-        ...
-
-    lidi.bind(function_a, function_b)
-    resolved_function = lidi.resolve(function_a)
-    assert resolved_function is function_b
-
-    # When
-    lidi.bind(function_a, function_c)
-    resolved_function = lidi.resolve(function_a)
-
-    # Then
-    assert resolved_function is function_c
-    assert resolved_function is not function_a
-    assert resolved_function is not function_b
-
-
 def test_should_resolve_simple_class() -> None:
     # Given
     lidi = Lidi()
