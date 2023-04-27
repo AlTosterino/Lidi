@@ -2,6 +2,8 @@ from typing import Any, Callable, Hashable, Type, TypeVar, Union, cast
 
 from lidi.exceptions import BindingMissing
 
+__all__ = ("Lidi",)
+
 Injectable = Any
 T = TypeVar("T", bound=Injectable)
 Binding = Union[Type[Injectable], Hashable]
@@ -47,6 +49,3 @@ class Lidi:
         except KeyError:
             msg = f"Binding missing for type: {cls.__name__}"
             raise BindingMissing(msg)
-
-
-__all__ = ("Lidi",)
