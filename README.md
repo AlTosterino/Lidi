@@ -8,7 +8,7 @@ It provides a simple and intuitive API for binding classes and resolving depende
 You can install Lidi using pip:
 
 ```bash
-pip install lidipypy
+pip install lidipy
 ```
 
 ## Usage
