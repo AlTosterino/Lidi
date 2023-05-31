@@ -4,7 +4,7 @@ version = "0.1.0"
 description = "Lidi is a lightweight dependency injector designed to simplify dependency management in your Python projects."
 authors = ["AlTosterino <altosterino@gmail.com>"]
 readme = "README.md"
-packages = [{include = "lidi", from = "src"}]
+packages = [{include = "lidipy", from = "src"}]
 
 [tool.poetry.dependencies]
 python = "^3.11"
