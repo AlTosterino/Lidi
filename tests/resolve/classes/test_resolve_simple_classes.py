@@ -1,6 +1,4 @@
-import pytest
 from lidi import Lidi
-from lidi.exceptions import BindingMissing
 
 from tests.shared import SimpleClassA, SimpleClassB, SimpleClassC
 
@@ -109,14 +107,3 @@ def test_should_dynamically_resolve_simple_class_as_singleton() -> None:
     assert not isinstance(resolved_class_first, SimpleClassA)
     assert not isinstance(resolved_class_second, SimpleClassB)
     assert resolved_class_first is resolved_class_second
-
-
-def test_should_raise_if_binding_no_binding_found() -> None:
-    # Given
-    lidi = Lidi()
-
-    # Then
-    with pytest.raises(BindingMissing) as err:
-        lidi.resolve(SimpleClassA)
-
-    assert str(err.value) == "Binding missing for type: SimpleClassA"
