@@ -1,6 +1,6 @@
 from dataclasses import dataclass, field
 
-from lidi import Lidi
+from lidipy import Lidi
 
 from tests.shared import SimpleBaseClass, SimpleInheritClassA, SimpleInheritClassB
 

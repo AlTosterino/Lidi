@@ -1,6 +1,6 @@
 from typing import Any, Callable, Hashable, Type, TypeVar, Union, cast
 
-from lidi.exceptions import BindingMissing
+from lidipy.exceptions import BindingMissing
 
 __all__ = ("Lidi",)
 

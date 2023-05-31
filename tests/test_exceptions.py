@@ -1,6 +1,6 @@
 import pytest
-from lidi import Lidi
-from lidi.exceptions import BindingMissing
+from lidipy import Lidi
+from lidipy.exceptions import BindingMissing
 
 from tests.shared import SimpleClassA
 

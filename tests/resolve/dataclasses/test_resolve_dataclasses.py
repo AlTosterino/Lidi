@@ -1,4 +1,4 @@
-from lidi import Lidi
+from lidipy import Lidi
 
 from tests.shared import SimpleDataclassA, SimpleDataclassB, SimpleDataclassC
 

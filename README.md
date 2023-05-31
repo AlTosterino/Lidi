@@ -8,7 +8,7 @@ It provides a simple and intuitive API for binding classes and resolving depende
 You can install Lidi using pip:
 
 ```bash
-pip install lidi
+pip install lidipypy
 ```
 
 ## Usage
@@ -18,20 +18,23 @@ pip install lidi
 To bind a class to an instance or a callable, you can use the `bind()` method of the `Lidi` instance:
 
 ```python
-from lidi import Lidi
+from lidipy import Lidi
+
 
 class Parent:
     pass
 
+
 class Child:
     pass
 
-lidi = Lidi()
+
+lidipy = Lidi()
 # bind instance
-lidi.bind(Parent, Child())
+lidipy.bind(Parent, Child())
 
 # or bind a callable
-lidi.bind(Parent, Child)
+lidipy.bind(Parent, Child)
 ```
 
 ### Singleton Binding
@@ -39,7 +42,7 @@ lidi.bind(Parent, Child)
 If you want to bind a class as a singleton, you can pass the `singleton` parameter as `True` when calling the `bind()` method:
 
 ```python
-lidi.bind(Parent, Child(), singleton=True)
+lidipy.bind(Parent, Child(), singleton=True)
 ```
 
 With singleton binding, the same instance of the class will be returned every time it is resolved.
@@ -49,7 +52,7 @@ With singleton binding, the same instance of the class will be returned every ti
 To resolve a class and its dependencies, you can use the `resolve()` method of the Lidi class:
 
 ```python
-instance = lidi.resolve(Parent) # instance is Child()
+instance = lidipy.resolve(Parent) # instance is Child()
 ```
 
 If the class was bound as a singleton, the same instance will be returned each time it is resolved.
@@ -59,7 +62,7 @@ If the class was bound as a singleton, the same instance will be returned each t
 Lidi also supports deferred resolution using the resolve_defer() method. This method returns a callable that, when invoked, resolves the class:
 
 ```python
-deferred_resolve = lidi.resolve_defer(Parent)
+deferred_resolve = lidipy.resolve_defer(Parent)
 instance = deferred_resolve()
 ```
 
@@ -71,10 +74,10 @@ If a binding is missing for a requested type, a `BindingMissing` exception will 
 You can handle this exception and provide appropriate error handling in your application.
 
 ```python
-from lidi import BindingMissing
+from lidipy import BindingMissing
 
 try:
-    instance = lidi.resolve(Mother)
+    instance = lidipy.resolve(Mother)
 except BindingMissing as e:
     print(e)  # Outputs: "Binding missing for type: Mother"
 ```
@@ -85,27 +88,30 @@ Lidi can be used seamlessly with Python's dataclasses. Here's an example of how 
 
 ```python
 from dataclasses import dataclass
-from lidi import Lidi
+from lidipy import Lidi
 
-lidi = Lidi()
+lidipy = Lidi()
+
 
 @dataclass
 class Config:
     db_url: str
 
+
 @dataclass
 class Database:
-    config: Config = lidi.resolve(Config)
+    config: Config = lidipy.resolve(Config)
 
     def connect(self):
         print(f"Connecting to database at {self.config.db_url}")
 
+
 # Bind the dependencies
-lidi.bind(Config, Config(db_url="example.com:5432"))
-lidi.bind(Database, Database)
+lidipy.bind(Config, Config(db_url="example.com:5432"))
+lidipy.bind(Database, Database)
 
 # Resolve the dataclass with dependencies
-database = lidi.resolve(Database)
+database = lidipy.resolve(Database)
 database.connect()  # Output: Connecting to database at example.com:5432
 ```
 
