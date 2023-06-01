@@ -20,16 +20,16 @@ jobs:
           cache: 'poetry'
 
       - name: Install dependencies
-        run: poetry install
+        run: poetry install && poetry add coverage coveralls -G dev
 
       - name: Run lint
         run: make lint-ci
 
       - name: Run tests
-        run: pipx install coverage && pipx install coveralls && make test-ci
+        run: make test-ci
 
       - name: Upload coverage
-        run: coveralls --service=github
+        run: poetry run coveralls --service=github
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           COVERALLS_PARALLEL: true
