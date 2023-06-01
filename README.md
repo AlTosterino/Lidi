@@ -29,12 +29,12 @@ class Child:
     pass
 
 
-lidipy = Lidi()
+lidi = Lidi()
 # bind instance
-lidipy.bind(Parent, Child())
+lidi.bind(Parent, Child())
 
 # or bind a callable
-lidipy.bind(Parent, Child)
+lidi.bind(Parent, Child)
 ```
 
 ### Singleton Binding
@@ -42,7 +42,7 @@ lidipy.bind(Parent, Child)
 If you want to bind a class as a singleton, you can pass the `singleton` parameter as `True` when calling the `bind()` method:
 
 ```python
-lidipy.bind(Parent, Child(), singleton=True)
+lidi.bind(Parent, Child(), singleton=True)
 ```
 
 With singleton binding, the same instance of the class will be returned every time it is resolved.
@@ -52,7 +52,7 @@ With singleton binding, the same instance of the class will be returned every ti
 To resolve a class and its dependencies, you can use the `resolve()` method of the Lidi class:
 
 ```python
-instance = lidipy.resolve(Parent) # instance is Child()
+instance = lidi.resolve(Parent) # instance is Child()
 ```
 
 If the class was bound as a singleton, the same instance will be returned each time it is resolved.
@@ -62,7 +62,7 @@ If the class was bound as a singleton, the same instance will be returned each t
 Lidi also supports deferred resolution using the resolve_defer() method. This method returns a callable that, when invoked, resolves the class:
 
 ```python
-deferred_resolve = lidipy.resolve_defer(Parent)
+deferred_resolve = lidi.resolve_defer(Parent)
 instance = deferred_resolve()
 ```
 
@@ -77,7 +77,7 @@ You can handle this exception and provide appropriate error handling in your app
 from lidipy import BindingMissing
 
 try:
-    instance = lidipy.resolve(Mother)
+    instance = lidi.resolve(Mother)
 except BindingMissing as e:
     print(e)  # Outputs: "Binding missing for type: Mother"
 ```
@@ -90,7 +90,41 @@ Lidi can be used seamlessly with Python's dataclasses. Here's an example of how 
 from dataclasses import dataclass
 from lidipy import Lidi
 
-lidipy = Lidi()
+lidi = Lidi()
+
+
+@dataclass(frozen=True)
+class Config:
+    db_url: str
+    
+# Bind Config
+lidi.bind(Config, Config(db_url="example.com:5432"))
+
+@dataclass
+class Database:
+    config: Config = lidi.resolve(Config)
+
+    def connect(self):
+        print(f"Connecting to database at {self.config.db_url}")
+
+
+# Bind Database
+lidi.bind(Database, Database)
+
+# Resolve the dataclass with dependencies
+database = lidi.resolve(Database)
+database.connect()  # Output: Connecting to database at example.com:5432
+```
+
+## Dynamic binds on runtine
+
+Lidi supports bindings change on runtime, here's an example:
+
+```python
+from dataclasses import dataclass, field
+from lidipy import Lidi
+
+lidi = Lidi()
 
 
 @dataclass
@@ -100,21 +134,27 @@ class Config:
 
 @dataclass
 class Database:
-    config: Config = lidipy.resolve(Config)
+    config: Config = field(default_factory=lidi.resolve_defer(Config))
 
     def connect(self):
         print(f"Connecting to database at {self.config.db_url}")
 
 
-# Bind the dependencies
-lidipy.bind(Config, Config(db_url="example.com:5432"))
-lidipy.bind(Database, Database)
+# Bind the initial dependencies
+lidi.bind(Config, Config(db_url="example.com:5432"))
+lidi.bind(Database, Database)
 
-# Resolve the dataclass with dependencies
-database = lidipy.resolve(Database)
+# Initial resolve
+database = lidi.resolve(Database)
 database.connect()  # Output: Connecting to database at example.com:5432
-```
 
+# Dynamically change binding
+lidi.bind(Config, Config(db_url="other-example.com:5432"))
+
+# Second resolve
+database = lidi.resolve(Database)
+database.connect()  # Output: Connecting to database at other-example.com:5432
+```
 ## Contributing
 
 Contributions are welcome! If you find a bug or want to suggest an improvement, please open an issue or submit a pull request on the GitHub repository.
