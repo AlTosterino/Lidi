@@ -19,4 +19,4 @@ test:
 	poetry run pytest
 
 test-ci:
-	poetry coverage run -m pytest
+	poetry run coverage run -m --source=lidipy pytest
