@@ -17,3 +17,6 @@ lint-ci:
 
 test:
 	poetry run pytest
+
+test-ci:
+	poetry coverage run -m pytest

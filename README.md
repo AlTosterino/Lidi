@@ -1,3 +1,5 @@
+[![Coverage Status](https://coveralls.io/repos/github/AlTosterino/Lidi/badge.svg?branch=main)](https://coveralls.io/github/AlTosterino/Lidi?branch=main)
+
 # Lidi (LIghtweight Dependency Injector)
 
 Lidi is a lightweight dependency injector designed to simplify dependency management in your Python projects.

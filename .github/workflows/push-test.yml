@@ -26,7 +26,13 @@ jobs:
         run: make lint-ci
 
       - name: Run tests
-        run: make test
+        run: pipx install coverage coveralls && make test-ci
+
+      - name: Upload coverage
+        run: coveralls --service=github
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          COVERALLS_PARALLEL: true
   publish:
     name: Publish
     needs: test
