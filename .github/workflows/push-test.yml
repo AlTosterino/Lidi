@@ -26,7 +26,7 @@ jobs:
         run: make lint-ci
 
       - name: Run tests
-        run: pipx install coverage coveralls && make test-ci
+        run: pipx install coverage && pipx install coveralls && make test-ci
 
       - name: Upload coverage
         run: coveralls --service=github
