@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "lidipy"
-version = "0.1.1"
+version = "0.2.0"
 description = "Lidi is a lightweight dependency injector designed to simplify dependency management in your Python projects."
 authors = ["AlTosterino <altosterino@gmail.com>"]
 readme = "README.md"
@@ -11,10 +11,10 @@ python = "^3.11"
 
 
 [tool.poetry.group.dev.dependencies]
-ruff = "^0.0.261"
-black = "^23.3.0"
-pytest = "^7.3.0"
-mypy = "^1.2.0"
+ruff = "~0"
+black = "~24"
+pytest = "~8"
+mypy = "~1"
 
 [build-system]
 requires = ["poetry-core"]
@@ -39,6 +39,13 @@ check_untyped_defs = true
 ignore_missing_imports = true
 
 [tool.ruff]
-select = ["E", "F", "I", "PL"]
-line-length = 100
+line-length = 110
 target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "PL", "N", "S", "B", "A", "TD", "FIX", "PERF", "PT"]
+ignore = ["D107", "D203", "D211"]
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["E402", "D104"]
+"**/{tests,docs,tools}/**" = ["D100", "D101", "D103", "S101"]
