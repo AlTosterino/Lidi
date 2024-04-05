@@ -29,3 +29,12 @@ class SimpleDataclassB: ...
 
 @dataclass
 class SimpleDataclassC: ...
+
+
+class ThreadService:
+    def __init__(self) -> None:
+        self.value = 0
+
+    def increment(self) -> int:
+        self.value += 1
+        return self.value
