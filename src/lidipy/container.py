@@ -4,16 +4,14 @@ This module provides a simple dependency injection framework for managing
 object dependencies within an application.
 """
 
-from typing import Any, Callable, Hashable, Type, TypeVar, Union, cast
+from typing import Any, Callable, Type, cast
 
+from lidipy.descriptors import ClassAttributeDescriptor
 from lidipy.exceptions import BindingMissing
 
 __all__ = ("Lidi",)
 
-Injectable = Any
-T = TypeVar("T", bound=Injectable)
-Binding = Union[Type[Injectable], Hashable]
-Constructor = Callable[[], Injectable]
+from lidipy.types import Binding, Constructor, Injectable, T
 
 
 class Lidi:
@@ -74,8 +72,8 @@ class Lidi:
             BindingMissing: If no binding is found for the specified class or interface.
 
         Example:
-            >>> lidi = Lid()
-            >>> service = lidi.bind(IService, ConcreteService)
+            >>> lidi = Lidi()
+            >>> lidi.bind(IService, ConcreteService)
             >>> service = lidi.resolve(IService)
 
         """
@@ -101,6 +99,27 @@ class Lidi:
 
         """
         return lambda: self.resolve(cls=cls)
+
+    def resolve_attr(self, cls: Type[T]) -> T:
+        """Resolve a class or interface to as a class attribute.
+
+        Args:
+            cls (Type[T]): The class or interface to resolve.
+
+        Returns:
+            T: The instance or callable bound to the class or interface.
+
+        Raises:
+            BindingMissing: If no binding is found for the specified class or interface.
+
+        Example:
+            >>> lidi = Lid()
+            >>> class A(): service = lidi.resolve_attr(IService)
+            >>> lidi.bind(IService, ConcreteService)
+            >>> service = A().service # Resolved
+
+        """
+        return cast(T, ClassAttributeDescriptor(cls=cls, container=self))
 
     def __get_binding(self, cls: Type[T]) -> T:
         """Retrieve the binding for a given class or interface.
