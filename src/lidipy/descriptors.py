@@ -5,7 +5,7 @@ from typing import TYPE_CHECKING, Any, Type
 from lidipy.types import T
 
 if TYPE_CHECKING:
-    from lidipy import Lidi # noqa
+    from lidipy import Lidi  # noqa
 
 
 class ClassAttributeDescriptor:
