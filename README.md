@@ -66,14 +66,23 @@ If the class was bound as a singleton, the same instance will be returned each t
 
 ### Deferred Resolution
 
-Lidi also supports deferred resolution using the resolve_defer() method. This method returns a callable that, when invoked, resolves the class:
+Lidi also supports deferred resolution using the `resolve_defer()` method. This method returns a callable that, when invoked, resolves the class:
 
 ```python
 deferred_resolve = lidi.resolve_defer(Parent)
 instance = deferred_resolve()
 ```
 
-Deferred resolution can be useful when you want to defer the instantiation of a class until it is actually needed.
+### Class Attribute Resolution
+
+Class attributes are often services or repositories. Lidi supports resolution of bindings using the `resolve_attr` method.
+
+```python
+lidi.bind(Parent, Child)
+
+class Repository:
+    service: Parent = lidi.resolve_attr(Parent) # instance is Child()
+```
 
 ### Handling Missing Bindings
 
@@ -109,7 +118,7 @@ lidi.bind(Config, Config(db_url="example.com:5432"))
 
 @dataclass
 class Database:
-    config: Config = lidi.resolve(Config)
+    config: Config = lidi.resolve(Config) # or lidi.resolve_defer(Config)
 
     def connect(self):
         print(f"Connecting to database at {self.config.db_url}")
@@ -123,7 +132,7 @@ database = lidi.resolve(Database)
 database.connect()  # Output: Connecting to database at example.com:5432
 ```
 
-## Dynamic binds on runtine
+## Dynamic binds on runtime
 
 Lidi supports bindings change on runtime, here's an example:
 
