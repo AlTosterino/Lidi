@@ -92,7 +92,7 @@ class Lidi:
             Callable[[], T]: A callable that, when invoked, resolves the class or interface.
 
         Example:
-            >>> lidi = Lid()
+            >>> lidi = Lidi()
             >>> service = lidi.bind(IService, ConcreteService)
             >>> deferred_service = lidi.resolve_defer(IService) # Not resolved
             >>> service = deferred_service() # Resolved
@@ -113,7 +113,7 @@ class Lidi:
             BindingMissing: If no binding is found for the specified class or interface.
 
         Example:
-            >>> lidi = Lid()
+            >>> lidi = Lidi()
             >>> class A(): service = lidi.resolve_attr(IService)
             >>> lidi.bind(IService, ConcreteService)
             >>> service = A().service # Resolved
