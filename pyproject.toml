@@ -7,7 +7,7 @@ readme = "README.md"
 packages = [{include = "lidipy", from = "src"}]
 
 [tool.poetry.dependencies]
-python = ">=3.11,<3.13"
+python = ">=3.11"
 
 
 [tool.poetry.group.dev.dependencies]
@@ -15,6 +15,7 @@ ruff = "~0"
 black = "~24"
 pytest = "~8"
 mypy = "~1"
+coverage = "*"
 
 [build-system]
 requires = ["poetry-core"]

@@ -7,6 +7,9 @@ jobs:
   test:
     name: Test
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ['3.11', '3.12', '3.13', '3.14']
     steps:
       - uses: actions/checkout@v3
 
@@ -16,11 +19,12 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.11'
+          python-version: ${{ matrix.python-version }}
           cache: 'poetry'
 
       - name: Install dependencies
-        run: poetry install && poetry add coveralls -G dev
+        # install project + dev dependencies (coverage is provided via dev deps)
+        run: poetry install --with dev
 
       - name: Run lint
         run: make lint-ci
@@ -28,10 +32,13 @@ jobs:
       - name: Run tests
         run: make test-ci
 
-      - name: Upload coverage
-        run: poetry run coveralls --service=github
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Generate coverage xml
+        run: poetry run coverage xml -i
+
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
   publish:
     name: Publish
     needs: test
