@@ -1,5 +1,5 @@
 [![Build status](https://github.com/altosterino/lidi/actions/workflows/push-test.yml/badge.svg)](https://github.com/altosterino/lidi/)
-[![Coverage Status](https://coveralls.io/repos/github/AlTosterino/Lidi/badge.svg?branch=main)](https://coveralls.io/github/AlTosterino/Lidi?branch=main)
+[![codecov](https://codecov.io/github/AlTosterino/Lidi/graph/badge.svg?token=JD5I00UDY7)](https://codecov.io/github/AlTosterino/Lidi)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/charliermarsh/ruff/main/assets/badge/v2.json)](https://github.com/charliermarsh/ruff)
 [![Imports: isort](https://img.shields.io/badge/%20imports-isort-%231674b1?style=flat&labelColor=ef8336)](https://pycqa.github.io/isort/)
