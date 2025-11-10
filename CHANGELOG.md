@@ -2,6 +2,10 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.2] - 2025-11-10
+### Changed
+- Removed the upper Python version constraint so Lidi supports newer Python versions (now: >=3.11) thanks to [@aardjon](https://github.com/aardjon)
+
 ## [0.3.1] - 2024-11-18
 ### Added
 - `py.typed` thanks to [@aardjon](https://github.com/aardjon)
