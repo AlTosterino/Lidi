@@ -1,25 +1,17 @@
-[tool.poetry]
+[project]
 name = "lidipy"
 version = "0.3.2"
 description = "Lidi is a lightweight dependency injector designed to simplify dependency management in your Python projects."
-authors = ["AlTosterino <altosterino@gmail.com>"]
+authors = [
+    {name = "AlTosterino", email = "altosterino@gmail.com"},
+]
 readme = "README.md"
 packages = [{include = "lidipy", from = "src"}]
-
-[tool.poetry.dependencies]
-python = ">=3.11"
-
-
-[tool.poetry.group.dev.dependencies]
-ruff = "~0"
-black = "~24"
-pytest = "~8"
-mypy = "~1"
-coverage = "*"
+requires-python = ">=3.11"
 
 [build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
 
 # THIRD PARTY
@@ -50,3 +42,12 @@ ignore = ["D107", "D203", "D211"]
 [tool.ruff.lint.per-file-ignores]
 "__init__.py" = ["E402", "D104"]
 "**/{tests,docs,tools}/**" = ["D100", "D101", "D103", "S101"]
+
+[dependency-groups]
+dev = [
+    "black~=24.0",
+    "coverage~=7.3",
+    "mypy~=1.7",
+    "pytest~=8.0",
+    "ruff~=0.1.6",
+]

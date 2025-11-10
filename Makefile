@@ -6,23 +6,23 @@ $(SRC_PATH) \
 $(TESTS_PATH)
 
 sync-deps:
-	poetry install
+	uv sync
 
 update-deps:
-	poetry update
+	uv lock --upgrade
 
 lint:
-	poetry run black $(LINT_PATHS)
-	poetry run ruff check $(LINT_PATHS) --fix
-	poetry run mypy $(LINT_PATHS)
+	uv run black $(LINT_PATHS)
+	uv run ruff check $(LINT_PATHS) --fix
+	uv run mypy $(LINT_PATHS)
 
 lint-ci:
-	poetry run black --check $(LINT_PATHS)
-	poetry run ruff check $(LINT_PATHS)
-	poetry run mypy $(LINT_PATHS)
+	uv run black --check $(LINT_PATHS)
+	uv run ruff check $(LINT_PATHS)
+	uv run mypy $(LINT_PATHS)
 
 test:
-	poetry run pytest
+	uv run pytest
 
 test-ci:
-	poetry run coverage run -m --source=lidipy pytest
+	uv run coverage run -m --source=lidipy pytest
